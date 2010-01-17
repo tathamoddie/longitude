@@ -1,6 +1,7 @@
 require 'rubygems'
 require 'sinatra'
+require 'haml'
 
 get '/' do
-  "This text was rendered by Sinatra, written in Ruby, hosted on Heroku with a custom domain name and deployed via git!"
+  haml :default
 end
