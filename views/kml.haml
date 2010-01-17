@@ -1,0 +1,7 @@
+!!! XML
+%kml{:xmlns => "http://www.opengis.net/kml/2.2"}
+  - @coordinates.each do |coordinate|
+    %Placemark
+      %name Point
+      %Point
+        %coordinates= "#{coordinate[1]},#{coordinate[0]}"
