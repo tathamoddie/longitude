@@ -75,6 +75,7 @@
     <orderEntry type="library" name="[gem] activeresource (v2.3.5, C:/Ruby19/lib/ruby/gems/1.9.1/gems/activeresource-2.3.5)" level="application" />
     <orderEntry type="library" name="[gem] activerecord (v2.3.5, C:/Ruby19/lib/ruby/gems/1.9.1/gems/activerecord-2.3.5)" level="application" />
     <orderEntry type="library" name="[gem] rails (v2.3.5, C:/Ruby19/lib/ruby/gems/1.9.1/gems/rails-2.3.5)" level="application" />
+    <orderEntry type="library" name="[gem] sqlite3-ruby (v1.2.5, C:/Ruby19/lib/ruby/gems/1.9.1/gems/sqlite3-ruby-1.2.5-x86-mingw32)" level="application" />
   </component>
 </module>
 
