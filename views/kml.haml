@@ -1,9 +1,16 @@
 !!! XML
 %kml{:xmlns => "http://www.opengis.net/kml/2.2"}
   %Document
-    %name= "@#{id}'s recent locations" 
+    %name= "@#{id}'s recent locations"
     - (0...points.length-1).each do |i|
+      %Style{:id => "icon-#{i}"}
+        %IconStyle
+          %color= "#{"%02x" % (((points.length-i).to_f / points.length.to_f) * 255).to_i }ffffff"
+          %colorMode normal
+          %Icon
+            %href http://localhost:4567/assets/pin.png
       %Placemark
         %name= "#{"%03d" % (i+1)}. #{points[i][1]}"
+        %styleUrl= "#icon-#{i}"
         %Point
           %coordinates= "#{points[i][0][1]},#{points[i][0][0]}"
