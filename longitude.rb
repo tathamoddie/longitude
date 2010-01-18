@@ -28,6 +28,7 @@ get %r{/([\w]*)/feed.([\w]+)$} do |id,format|
   coordinates = []
   for i in (0..timeline.length-1)
     tweet = timeline[i]
+    next if tweet.geo == nil
     coordinates << tweet
   end
   coordinates.to_json
