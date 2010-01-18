@@ -29,8 +29,9 @@ get %r{/([\w]*)/feed.([\w]+)$} do |id,format|
   for i in (0..timeline.length-1)
     tweet = timeline[i]
     next if tweet.geo == nil
-    #next if tweet.geo.type != "Point"
-    coordinates << tweet.geo.type
+    #next if tweet.geo["type"] != "Point"
+    coordinates << tweet.geo["type"]
+    coordinates << tweet.geo["coordinates"]
   end
   coordinates.to_json
 
