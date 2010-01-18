@@ -25,11 +25,11 @@ get %r{/([\w]*)/feed.([\w]+)$} do |id,format|
     raise Sinatra::NotFound, "No tweets found in timeline."
   end
 
-  test = []
+  coordinates = []
   for i in (0..timeline.length)
-    test << i
+    coordinates << i
   end
-  test.to_json
+  coordinates.to_json
 
 #  for i in (0..timeline.length-1)
 #    tweet = timeline[i]
