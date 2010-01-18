@@ -17,6 +17,7 @@ get %r{/([\w]*)$} do |id|
 end
 
 get %r{/([\w]*)/feed.([\w]+)$} do |id,format|
+  response.headers['Cache-Control'] = 'public, max-age=300'
 
   timeline = Twitter.timeline(id, { :count => 200 })
 
