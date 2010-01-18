@@ -29,28 +29,19 @@ get %r{/([\w]*)/feed.([\w]+)$} do |id,format|
   for i in (0..timeline.length-1)
     tweet = timeline[i]
     next if tweet.geo == nil
-    #next if tweet.geo["type"] != "Point"
-    coordinates << tweet.geo["type"]
-    coordinates << tweet.geo["coordinates"]
+    next if tweet.geo["type"] != "Point"
+    if coordinates.length > 0 then
+      # ignore it if it's within 500m of the last point
+      next if Geo.calculate_displacement(coordinates[coordinates.length-1], tweet.geo.coordinates) < 0.5
+    end
+    coordinates << tweet.geo.coordinates
   end
-  coordinates.to_json
 
-#  for i in (0..timeline.length-1)
-#    tweet = timeline[i]
-#    next if tweet.geo == nil
-#    next if tweet.geo.type != "Point"
-#    if coordinates.length > 0 then
-#      # ignore it if it's within 500m of the last point
-#      next if Geo.calculate_displacement(coordinates[coordinates.length-1], tweet.geo.coordinates) < 0.5
-#    end
-#    coordinates << tweet.geo.coordinates
-#  end
-#
-#  if (format == 'kml') then
-#    haml :kml, :locals => { :coordinates => coordinates }
-#  elsif (format == 'json') then
-#    coordinates.to_json
-#  else
-#    raise Sinatra::NotFound, "Format not recognized."
-#  end
+  if (format == 'kml') then
+    haml :kml, :locals => { :coordinates => coordinates }
+  elsif (format == 'json') then
+    coordinates.to_json
+  else
+    raise Sinatra::NotFound, "Format not recognized."
+  end
 end
