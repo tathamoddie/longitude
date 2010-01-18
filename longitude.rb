@@ -17,7 +17,6 @@ get %r{/([\w]*)$} do |id|
 end
 
 get %r{/([\w]*)/feed.([\w]+)$} do |id,format|
-  content_type 'application/vnd.google-earth.kml+xml', :charset => 'utf-8'
 
   timeline = Twitter.timeline(id, { :count => 200 })
 
@@ -38,8 +37,10 @@ get %r{/([\w]*)/feed.([\w]+)$} do |id,format|
   end
 
   if (format == 'kml') then
-    haml :kml, :locals => { :coordinates => coordinates }
+    content_type 'application/vnd.google-earth.kml+xml', :charset => 'utf-8'
+    haml :kml, :locals => { :coordinates => coordinates, :id => id }
   elsif (format == 'json') then
+    content_type 'application/json', :charset => 'utf-8'
     coordinates.to_json
   else
     raise Sinatra::NotFound, "Format not recognized."
