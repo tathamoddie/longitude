@@ -19,14 +19,14 @@ end
 get %r{/([\w]*)/feed.([\w]+)$} do |id,format|
   content_type 'application/vnd.google-earth.kml+xml', :charset => 'utf-8'
 
-#  timeline = Twitter.timeline(id, { :count => 200 })
-#
-#  if timeline.length == 0 then
-#    raise Sinatra::NotFound, "No tweets found in timeline."
-#  end
+  timeline = Twitter.timeline(id, { :count => 200 })
+
+  if timeline.length == 0 then
+    raise Sinatra::NotFound, "No tweets found in timeline."
+  end
 
   test = []
-  for i in (0..5)
+  for i in (0..timeline.length)
     test << i
   end
   test.to_json
