@@ -2,8 +2,8 @@
 %kml{:xmlns => "http://www.opengis.net/kml/2.2"}
   %Document
     %name= "@#{id}'s recent locations" 
-    - points.each do |point|
+    - (0...points.length-1).each do |i|
       %Placemark
-        %name= "#{point[1]}"
+        %name= "#{i+1}. #{points[i][1]}"
         %Point
-          %coordinates= "#{point[0][1]},#{point[0][0]}"
+          %coordinates= "#{points[i][0][1]},#{points[i][0][0]}"
