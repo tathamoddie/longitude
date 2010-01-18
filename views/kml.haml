@@ -5,10 +5,10 @@
     - (0...points.length-1).each do |i|
       %Style{:id => "icon-#{i}"}
         %IconStyle
-          %color= "#{"%02x" % (((points.length-i).to_f / points.length.to_f) * 255).to_i }ffffff"
+          %color ffffffff
           %colorMode normal
           %Icon
-            %href http://localhost:4567/assets/pin.png
+            %href= "http://longitude.tath.am/assets/pin#{ (((points.length-i).to_f / points.length.to_f) * 10).to_i }.png"
       %Placemark
         %name= "#{"%03d" % (i+1)}. #{points[i][1]}"
         %styleUrl= "#icon-#{i}"
