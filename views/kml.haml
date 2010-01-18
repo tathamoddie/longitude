@@ -4,6 +4,6 @@
     %name= "@#{id}'s recent locations" 
     - (0...points.length-1).each do |i|
       %Placemark
-        %name= "#{i+1}. #{points[i][1]}"
+        %name= "#{"%03d" % (i+1)}. #{points[i][1]}"
         %Point
           %coordinates= "#{points[i][0][1]},#{points[i][0][0]}"
