@@ -7,7 +7,7 @@ require 'json'
 load "#{File.dirname(__FILE__)}/lib/geo.rb"
 
 get '/styles.css' do
-  header 'Content-Type' => 'text/css; charset=utf-8'
+  content_type 'text/css', :charset => 'utf-8'
   sass :styles
 end
 
@@ -17,7 +17,7 @@ get %r{/([\w]*)$} do |id|
 end
 
 get %r{/([\w]*)/feed.([\w]+)$} do |id,format|
-  header 'Content-Type' => 'application/vnd.google-earth.kml+xml'
+  content_type 'application/vnd.google-earth.kml+xml', :charset => 'utf-8'
 
   timeline = Twitter.timeline(id, { :count => 200 })
 
@@ -25,22 +25,22 @@ get %r{/([\w]*)/feed.([\w]+)$} do |id,format|
     raise Sinatra::NotFound, "No tweets found in timeline."
   end
 
-  @coordinates = []
+  coordinates = []
   for i in (0..timeline.length-1)
     tweet = timeline[i]
     next if tweet.geo == nil
     next if tweet.geo.type != "Point"
-    if @coordinates.length > 0 then
+    if coordinates.length > 0 then
       # ignore it if it's within 500m of the last point
-      next if Geo.calculate_displacement(@coordinates[@coordinates.length-1], tweet.geo.coordinates) < 0.5
+      next if Geo.calculate_displacement(coordinates[coordinates.length-1], tweet.geo.coordinates) < 0.5
     end
-    @coordinates = @coordinates.push(tweet.geo.coordinates)
+    coordinates << tweet.geo.coordinates
   end
 
   if (format == 'kml') then
-    haml :kml
+    haml :kml, :locals => { :coordinates => coordinates }
   elsif (format == 'json') then
-    @coordinates.to_json
+    coordinates.to_json
   else
     raise Sinatra::NotFound, "Format not recognized."
   end
