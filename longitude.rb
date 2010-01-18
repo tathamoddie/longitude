@@ -25,16 +25,16 @@ get %r{/([\w]*)/feed.([\w]+)$} do |id,format|
     raise Sinatra::NotFound, "No tweets found in timeline."
   end
 
-  @coordinates = [1,2,3]
+  @coordinates = []
   for i in (0..timeline.length-1)
     tweet = timeline[i]
     next if tweet.geo == nil
     next if tweet.geo.type != "Point"
-#    if @coordinates.length > 0 then
-#      # ignore it if it's within 500m of the last point
-#      next if Geo.calculate_displacement(@coordinates[@coordinates.length-1], tweet.geo.coordinates) < 0.5
-#    end
-    @coordinates.push(tweet.geo.coordinates)
+    if @coordinates.length > 0 then
+      # ignore it if it's within 500m of the last point
+      next if Geo.calculate_displacement(@coordinates[@coordinates.length-1], tweet.geo.coordinates) < 0.5
+    end
+    @coordinates = @coordinates.push(tweet.geo.coordinates)
   end
 
   if (format == 'kml') then
