@@ -24,24 +24,24 @@ get %r{/([\w]*)/feed.([\w]+)$} do |id,format|
     raise Sinatra::NotFound, "No tweets found in timeline."
   end
 
-  coordinates = []
+  points = []
   for i in (0..timeline.length-1)
     tweet = timeline[i]
     next if tweet.geo == nil
     next if tweet.geo["type"] != "Point"
-    if coordinates.length > 0 then
+    if points.length > 0 then
       # ignore it if it's within 500m of the last point
-      next if Geo.calculate_displacement(coordinates[coordinates.length-1], tweet.geo.coordinates) < 0.5
+      next if Geo.calculate_displacement(points[points.length-1][0], tweet.geo.coordinates) < 0.5
     end
-    coordinates << tweet.geo.coordinates
+    points << [ tweet.geo.coordinates, tweet.created_at ]
   end
 
   if (format == 'kml') then
     content_type 'application/vnd.google-earth.kml+xml', :charset => 'utf-8'
-    haml :kml, :locals => { :coordinates => coordinates, :id => id }
+    haml :kml, :locals => { :points => points, :id => id }
   elsif (format == 'json') then
     content_type 'application/json', :charset => 'utf-8'
-    coordinates.to_json
+    points.to_json
   else
     raise Sinatra::NotFound, "Format not recognized."
   end

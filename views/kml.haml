@@ -1,9 +1,9 @@
 !!! XML
 %kml{:xmlns => "http://www.opengis.net/kml/2.2"}
   %Document
-    %name= "#{id}'s recent locations" 
-    - coordinates.each do |coordinate|
+    %name= "@#{id}'s recent locations" 
+    - points.each do |point|
       %Placemark
-        %name Point
+        %name= "#{point[1]}"
         %Point
-          %coordinates= "#{coordinate[1]},#{coordinate[0]}"
+          %coordinates= "#{point[0][1]},#{point[0][0]}"
