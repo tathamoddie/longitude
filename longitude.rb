@@ -25,7 +25,7 @@ get %r{/([\w]*)/feed.([\w]+)$} do |id,format|
     raise Sinatra::NotFound, "No tweets found in timeline."
   end
 
-  @coordinates = []
+  @coordinates = [1,2,3]
   for i in (0..timeline.length-1)
     tweet = timeline[i]
     next if tweet.geo == nil
