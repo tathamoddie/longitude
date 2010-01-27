@@ -27,6 +27,7 @@ get %r{/([\w]*)/feed.([\w]+)$} do |id,format|
 
   points = []
   for i in (0..timeline.length-1)
+    break if points.length > 25
     tweet = timeline[i]
     next if tweet.geo == nil
     next if tweet.geo["type"] != "Point"
